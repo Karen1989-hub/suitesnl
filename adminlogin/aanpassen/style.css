@@ -1,0 +1,129 @@
+body {
+	font-family: Verdana;
+}
+
+h1 {
+	text-align: center;
+}	
+
+.search-box {
+	width: 1000px;
+	position: relative;
+	font-size: 14px;
+	margin: auto;
+}
+
+.search-box input[type="text"] {
+	height: 32px;
+	padding: 5px 10px;
+	border: 1px solid #CCCCCC;
+	font-size: 14px;
+}
+
+.result {
+	position: absolute;        
+	z-index: 999;
+	top: 100%;
+	left: 0;
+}
+
+.search-box input[type="text"], .result {
+	width: 100%;
+	box-sizing: border-box;
+}
+    
+.result p {
+	margin: 0;
+	padding: 7px 10px;
+	border: 1px solid #CCCCCC;
+	border-top: none;
+	cursor: pointer;
+	background-color: gray
+}
+
+.result p:hover {
+	background: #f2f2f2;
+}
+	
+.result a {
+	text-decoration: none;
+	color: black;
+	width: 100%;
+	display: block;
+}
+
+.result a:hover {
+	text-decoration: underline;
+}	
+
+.search-box2 {
+	width: 1000px;
+	position: relative;
+	font-size: 14px;
+	margin: auto;
+}
+
+.search-box2 input[type="text"] {
+	height: 32px;
+	padding: 5px 10px;
+	border: 1px solid #CCCCCC;
+	font-size: 14px;
+}
+
+.result2 {
+	position: absolute;        
+	z-index: 999;
+	top: 100%;
+	left: 0;
+}
+
+.search-box2 input[type="text"], .result2 {
+	width: 100%;
+	box-sizing: border-box;
+}
+    
+.result2 p {
+	margin: 0;
+	padding: 7px 10px;
+	border: 1px solid #CCCCCC;
+	border-top: none;
+	cursor: pointer;
+	background-color: gray
+}
+
+.result2 p:hover {
+	background: #f2f2f2;
+}
+	
+.result2 a {
+	text-decoration: none;
+	color: black;
+	width: 100%;
+	display: block;
+}
+
+.result2 a:hover {
+	text-decoration: underline;
+}
+
+.search-box2 input[type="text"], .result2 {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.error {
+	color: #FF0000;
+}
+table {
+    border-spacing: 0;
+	margin-left: auto;
+	margin-right: auto;
+	table-layout: fixed;
+}
+table td {
+  border: 1px solid black;
+}
+
+form {
+  text-align: center;
+}
