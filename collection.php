@@ -26,17 +26,6 @@ function GetCookie(){
 
 }
 
-# Hier defineer je je variabelen ( boven de includes )
-
-$type = 'article';
-$url = 'https://www.suites.nl';
-$description = 'Omschrijving van de site';
-$image = '/images/socialheader.jpg';
-
-$title = 'Dit is de titel van de pagina'; #zie header file voor voorbeeld
-$fbtype = 'PageView';
-
-#include __DIR__ . '/include/header.php';
 
 $cookie = GetCookie();
 

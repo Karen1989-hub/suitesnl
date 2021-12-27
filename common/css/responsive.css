@@ -1,0 +1,69 @@
+@media only screen and (max-width: 1279px) {
+	.banner-bar .left { min-height: 545px; }
+	.destinations-bar .row ul.none { display: none; }
+	.destinations-bar .row ul { width: 50%; }
+}
+
+@media only screen and (max-width: 1023px) {
+	body.active { overflow: hidden; }
+	.wrapper { padding-left: 20px; padding-right: 20px; }
+	#header-part a.mobilemenu { display: block; position: absolute; right: 29px; top: 30px; font-size: 0px; width: 28px; height: 20px; }
+	#header-part a.mobilemenu span { width: 100%; height: 3px; display: block; position: relative; background: #2c2b30; }
+	#header-part a.mobilemenu span:before, #header-part a.mobilemenu span:after { content: ""; position: absolute; left: 0px; top: 7px; width: 100%; height: 3px; background: #2c2b30; transition: 0.3s all; }
+	#header-part a.mobilemenu span:after { top: 14px; }
+	#header-part a.mobilemenu.active span { height: 0px; }
+	#header-part a.mobilemenu.active span:before { top: 10px; transform: rotate(45deg); }
+	#header-part a.mobilemenu.active span:after { top: 10px; transform: rotate(-45deg); }
+	.menu-bar { padding-top: 105px; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 2; background-color: #f4f4ef; }
+	.banner-bar .left, .banner-bar .right { width: 100%; }
+	.banner-bar .right { height: 235px; position: relative; }
+	.banner-bar .center { max-width: 100%; width: 100%; }
+	.banner-bar .left { order: 2; }
+	.banner-bar { padding: 0; }
+	.banner-bar .left { padding: 0 20px; }
+	#header-part { position: relative; }
+	.menu-bar ul li { margin-bottom: 16px; padding: 0; width: 100%; font-size: 19px;  font-weight: bold; }
+	.top-bar { position: relative; z-index: 5; background: #f4f4ef; }
+	.banner-bar .left { min-height: 499px; }
+	.sale-bar { min-height: 310px; }
+	.project-bar .item, .service-bar .column.third { width: 50%; }
+	.project-bar { padding-top: 53px; padding-bottom: 44px; }
+	.destinations-bar .bottom ul li { width: 100%; }
+	.destinations-bar .bottom .icon1, .destinations-bar .bottom .icon2, .destinations-bar .bottom .icon3 { margin-bottom: 15px; padding-left: 35px; }
+	.destinations-bar .row { margin-bottom: 80px; }
+	.newsletter-bar { padding-top: 50px; padding-bottom: 55px; }
+	.footer-bar .column { width: 33.33%; }
+	.footer-bar .social { margin-top: 50px; width: 100%; display: flex; align-items: center; }
+	.footer-bar .social .title { padding-right: 15px; margin-bottom: 0; }
+	.copyright-bar br { display: block; }
+	.copyright-bar { padding-top: 60px; padding-bottom: 60px; }
+	.footer-bar .column ul li a, .footer-bar .title { color: #f4f4ef; }
+}
+
+@media only screen and (max-width: 767px) {
+	.banner-bar .left { order: inherit; }
+	.banner-bar .right { display: none; }
+	.banner-bar button { min-width: 100%; }
+	.banner-bar { margin-bottom: 60px; }
+	.sale-bar { padding-bottom: 18px; min-height: 218px; }
+	.project-bar .item, .service-bar .column.third, .service-bar .column, .destinations-bar .row ul, .footer-bar .column, .footer-bar .social ul { width: 100%; }
+	.service-bar { padding-top: 58px; margin-bottom: 45px; }
+	.newsletter-bar { text-align: left; }
+	.newsletter-bar button, .newsletter-bar .form-control { width: 100%; min-width: 100%; }
+	.newsletter-bar .form-control { margin-bottom: 15px; margin-right: 0; }
+	.footer-bar .title { margin-bottom: 4px; }
+	.footer-bar .column, .footer-bar .social { margin-bottom: 35px; }
+	.footer-bar .social { margin-top: 5px; order: -1; flex-wrap: wrap; }
+	.footer-bar .social ul li:first-child { padding-left: 0; }
+	.footer-bar .social .title { padding-right: 0; margin-bottom: 20px; }
+	.footer-bar .social ul { margin-bottom: 20px; }
+	.footer-bar { padding-bottom: 40px; }
+	.destinations-bar h3 { position: relative; cursor: pointer; }
+	.destinations-bar h3:after { content: ''; position: absolute; right: -13px; top: -6px; width: 43px; height: 36px; background: url(../images/down-arrow.svg) no-repeat right center; background-size: cover; }
+	.destinations-bar h3.active:after { transform: rotate(180deg); -webkit-transform: rotate(180deg);  }
+	.destinations-bar .row ul.none { display: block; }
+}
+
+@media only screen and (max-width: 479px) {
+	.sale-bar { min-height: 205px; }
+}
