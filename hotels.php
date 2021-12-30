@@ -161,19 +161,28 @@ function GetCookie(){
 
         if($arrival !== "" && $departure !== "") {
 
+            $hotel_id = $get[0]["id"] ;
             include __DIR__ . '/include/havearrival.php';
 
         }else{
 
-            // $propertyid = isset($get[0]["id"]) ? $get[0]["id"] : 0;
-            // include __DIR__ . '/include/noarrival.php';
+             $propertyid = isset($get[0]["id"]) ? $get[0]["id"] : 0;            
+             include __DIR__ . '/include/noarrival.php';
         }
 
-        $propertyid = isset($get[0]["id"]) ? $get[0]["id"] : 0;
         
-        include __DIR__ . '/include/noarrival.php';
+
+
+
+        $propertyid = isset($get[0]["id"]) ? $get[0]["id"] : 0;
+
+        include __DIR__ . '/facilities.php';
+
+
 
         ?>  
+
+
 
 
     </body>

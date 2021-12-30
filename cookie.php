@@ -1,5 +1,5 @@
 <?php
-$result_cookies1 = isset($_COOKIE['collections']) ?  unserialize($_COOKIE['collections']) : [];
+    $result_cookies1 = isset($_COOKIE['collections']) ?  unserialize($_COOKIE['collections']) : [];
 ?>
 
 <div id="wrapper">

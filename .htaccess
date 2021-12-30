@@ -4,6 +4,8 @@ ErrorDocument 404 /404.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI}  ^/aanbiedingen/ [OR]
+RewriteCond %{REQUEST_URI}  ^/westcord/ [OR]
+RewriteCond %{REQUEST_URI}  ^/postillion/ [OR]
 RewriteCond %{REQUEST_URI}  ^/alkmaar/ [OR]
 RewriteCond %{REQUEST_URI}  ^/almelo/ [OR]
 RewriteCond %{REQUEST_URI}  ^/almere/ [OR]
@@ -601,3 +603,6 @@ RewriteCond %{REQUEST_URI}  ^/hotel-botticelli-maastricht/ [OR]
 RewriteCond %{REQUEST_URI}  ^/hotel-botterweck-valkenburg/ [OR]
 RewriteCond %{REQUEST_URI}  ^/boshotel-vlodrop/
 RewriteRule ^(.*)$ ./hotels.php?name=$1 [QSA,L] 
+
+
+

@@ -24,20 +24,31 @@ function getPropertyByPropertyid($propertyid){
     $smtp->execute([
         "propertyid"  => $propertyid,
     ]);
-
     $result = $smtp->fetchAll(\PDO::FETCH_ASSOC);
-
     return $result;
+}
 
+function ollPhotosByRoomId($roomId){
+    global $db;
+
+    $sql = "SELECT `photo_id` from `room_photos` WHERE room_id=:roomId";
+
+    $smtp = $db->prepare($sql);
+    $smtp->execute([
+        "roomId"  => $roomId,
+    ]);
+    $result = $smtp->fetchAll(\PDO::FETCH_ASSOC);
+    return $result;
 }
 
 if($propertyid !== 0){
-
     $data = getPropertyByPropertyid($propertyid);    
     // echo "<pre>";
     // print_r($data);          
     
 } 
+
+
 ?>
 
 
@@ -53,7 +64,19 @@ if($propertyid !== 0){
         </tr>
         <?php foreach($data as $val):?>
         <tr>
-            <td><img src="https://www.hotels.nl/assets/images/rooms/<?php echo isset($val['roomid'])  ? $val['roomid'] : '';  ?>-1.jpg"></td>
+            <?php $ollRoomPhotos = ollPhotosByRoomId($val['roomid']); ?>
+            <td>
+                <?php
+                    foreach($ollRoomPhotos as $val1){
+                        //var_dump($val['roomid']);
+                        ?>
+                        <img src="https://www.hotels.nl/assets/images/rooms/<?php echo isset($val['roomid'])  ? $val['roomid'] : '';  ?>-<?= $val1["photo_id"] ?>.jpg">
+                        <?php
+                    }
+                    
+                ?>
+            </td>
+            
             <td><?php echo isset($val['propertyid'])  ? $val['propertyid'] : '';  ?></td>
             <td><?php echo isset($val['naam'])  ? $val['naam'] : '';  ?></td>
             <td><?php echo isset($val['description'])  ? $val['description'] : '';  ?></td>

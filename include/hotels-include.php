@@ -38,7 +38,6 @@ if( !empty($_GET) && $_GET["name"] !== '' ){
     
     $name = str_replace('/', '', $_GET["name"]);
     $get = getPropertyByUrl($name);
-
     
 }
 
