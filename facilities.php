@@ -9,7 +9,10 @@ if (!isset($db)) {
     $db = getdb();
 }
 
-$property_id = isset($_GET['property']) ? $_GET['property'] : $propertyid;
+$property_id = isset($_GET['property']) ? $_GET['property'] : "";
+if(empty($property_id)){
+    $property_id = isset($id) ? $id: $propertyid;
+}
 
 function getPropertyNameById($id){
      global $db;

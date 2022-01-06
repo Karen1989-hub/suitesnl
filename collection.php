@@ -33,22 +33,8 @@ $arrival    =  isset($cookie['arrival']) ? $cookie['arrival'] : "";
 $departure  =  isset($cookie['departure']) ? $cookie['departure'] : "";
 $collection =  isset($_GET['name']) ? $_GET['name'] : "";
 
-$property_name = $get[0]['naam'];
-function getSuitesroom($property_name){
-    global $db;
-    
+$collection_id = $get[0]['id'];
 
-     $sql = "SELECT property.*,suitesrooms.naam as suitesrooms_naam, suitesrooms.description as suitesrooms_description FROM property INNER JOIN suitesrooms ON property.id=suitesrooms.propertyid WHERE city=:property_name";
-     $stmt = $db->prepare($sql);
-     $stmt->execute([
-        'property_name' => $property_name
-    	]);
-    	$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);   
-    	return $result;
-
-}
-
-$property_rooms = getSuitesroom($property_name);
 
 ?>
 
@@ -83,6 +69,114 @@ $property_rooms = getSuitesroom($property_name);
             }
   
     </style>
+    <style>
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background: #322d2c7d;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+.prev{
+    left:0;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+
+.d1{
+    width:80%;
+}
+</style>
 
 
 <div id="wrapper">
@@ -107,8 +201,6 @@ $property_rooms = getSuitesroom($property_name);
     </table>
     <?php else: echo "<p style='text-align:center;'>NO DATA</>" ?>
 <?php endif;?>
-
-
 
     <?php if(isset($get) && !empty($get)): ?>
        
@@ -141,69 +233,22 @@ $property_rooms = getSuitesroom($property_name);
 
 </div>
 
-<?php
+Cut here Vitaly
 
-// echo "<pre>";
-// var_dump($property_rooms);
+<?php 
+//if($arrival !== "" && $departure !== "") {
+
+   // $collection_id = isset($get[0]["id"]) ? $get[0]["id"] : 0;
+   // include "include/havearrival_collection.php";
+
+//}else{
+    $collection_id = isset($get[0]["id"]) ? $get[0]["id"] : 0;            
+     include "include/noarrival_collection.php";
+//}
 
 ?>
-<div style="width:100%; overflow:scroll;">
 
-
-<table cellpadding=10>
-    <tr>
-        <th>id</th>
-        <th>naam</th>
-        <th>url</th>
-        <th>priority</th>
-        <th>address</th>
-        <th>house_number</th>
-        <th>postal_code</th>
-        <th>city</th>
-        <th>province</th>
-        <th>stars</th>
-        <th>number_of_rooms</th>
-        <th>checkinfrom</th>
-        <th>checkintill</th>
-        <th>checkoutfrom</th>
-        <th>checkouttill</th>
-        <th>titel</th>
-        <th>usp1</th>
-        <th>usp2</th>
-        <th>usp3</th>
-        <th>hoteltext</th>
-        <th>suitesrooms_naam</th>
-        <th>suitesrooms_description</th>        
-    </tr>
-    <?php foreach($property_rooms as $val): ?>
-    <tr>
-       <td><?php echo isset($val['id']) ? $val['id'] : '';  ?></td>      
-       <td><a href="/<?php echo isset($val['url']) ? $val['url'] : ''; ?>/"><?php echo isset($val['naam']) ? $val['naam'] : ''; ?></a></td>     
-       <td><?php echo isset($val['url']) ? $val['url'] : '';  ?></td> 
-       <td><?php echo isset($val['priority']) ? $val['priority'] : '';  ?></td>     
-       <td><?php echo isset($val['address']) ? $val['address'] : '';  ?></td>     
-       <td><?php echo isset($val['house_number']) ? $val['house_number'] : '';  ?></td>     
-       <td><?php echo isset($val['postal_code']) ? $val['postal_code'] : '';  ?></td>     
-       <td><?php echo isset($val['city']) ? $val['city'] : '';  ?></td>     
-       <td><?php echo isset($val['province']) ? $val['province'] : '';  ?></td>     
-       <td><?php echo isset($val['stars']) ? $val['stars'] : '';  ?></td>     
-       <td><?php echo isset($val['number_of_rooms']) ? $val['number_of_rooms'] : '';  ?></td>     
-       <td><?php echo isset($val['checkinfrom']) ? $val['checkinfrom'] : '';  ?></td>     
-       <td><?php echo isset($val['checkintill']) ? $val['checkintill'] : '';  ?></td>     
-       <td><?php echo isset($val['checkoutfrom']) ? $val['checkoutfrom'] : '';  ?></td>    
-       <td><?php echo isset($val['checkouttill']) ? $val['checkouttill'] : '';  ?></td>     
-       <td><?php echo isset($val['titel']) ? $val['titel'] : '';  ?></td>     
-       <td><?php echo isset($val['usp1']) ? $val['usp1'] : '';  ?></td>     
-       <td><?php echo isset($val['usp2']) ? $val['usp2'] : '';  ?></td>     
-       <td><?php echo isset($val['usp3']) ? $val['usp3'] : '';  ?></td>     
-       <td><?php echo isset($val['hoteltext']) ? $val['hoteltext'] : '';  ?></td>     
-       <td><?php echo isset($val['suitesrooms_naam']) ? $val['suitesrooms_naam'] : '';  ?></td>
-       <td><?php echo isset($val['suitesrooms_description']) ? $val['suitesrooms_description'] : '';  ?></td>        
-    </tr>   
-    <?php endforeach ?>
-</table>
-</div>
-
+CUT TILL HERE
 
 <?php
 
@@ -215,7 +260,73 @@ $property_rooms = getSuitesroom($property_name);
         
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="assets/scripts/main.js"></script>
+<script >
+//slider for rooms photo
+var slideIndex = 1;
+let changeNum = 0;
+let inpSlideHidden = document.getElementsByClassName('slid');
+let inpSlideHiddenVal = 0;
+
+let prev = document.getElementsByClassName('prev');
+let next = document.getElementsByClassName('next');
+for(let i=0;i<prev.length;i++){
+    prev[i].addEventListener("click",function(){
+        console.log('prev');
+        changeNum = this.getAttribute('data');
+        let photoCount = document.getElementsByClassName("photoCount"+changeNum)[0].value;
+        let showPhotoIndex = document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value;
+        if(showPhotoIndex==1){
+            showPhotoIndex = photoCount--;
+            document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value = showPhotoIndex;
+            let thisdiv = document.getElementsByClassName('roomsId_'+changeNum);
+            for(let t=0;t<thisdiv.length;t++){
+                thisdiv[t].setAttribute('style','display:none');
+            }
+            thisdiv[showPhotoIndex-1].setAttribute('style','display:block');
+        } else {
+            showPhotoIndex--;
+            document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value = showPhotoIndex;
+            let thisdiv = document.getElementsByClassName('roomsId_'+changeNum);
+            for(let t=0;t<thisdiv.length;t++){
+                thisdiv[t].setAttribute('style','display:none');
+            }
+            thisdiv[showPhotoIndex-1].setAttribute('style','display:block');
+        }
+        console.log(showPhotoIndex);       
+        
+    })
+}
+for(let i=0;i<next.length;i++){
+    next[i].addEventListener("click",function(){
+        console.log('next');
+        changeNum = this.getAttribute('data');
+        let photoCount = document.getElementsByClassName("photoCount"+changeNum)[0].value;
+        let showPhotoIndex = document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value;
+        if(showPhotoIndex==photoCount){
+            showPhotoIndex = 1;
+            document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value = showPhotoIndex;
+            let thisdiv = document.getElementsByClassName('roomsId_'+changeNum);
+            for(let t=0;t<thisdiv.length;t++){
+                thisdiv[t].setAttribute('style','display:none');
+            }
+            thisdiv[showPhotoIndex-1].setAttribute('style','display:block');
+        } else {
+            showPhotoIndex++;
+            document.getElementsByClassName("showPhotoIndex"+changeNum)[0].value = showPhotoIndex;
+            let thisdiv = document.getElementsByClassName('roomsId_'+changeNum);
+            for(let t=0;t<thisdiv.length;t++){
+                thisdiv[t].setAttribute('style','display:none');
+            }
+            thisdiv[showPhotoIndex-1].setAttribute('style','display:block');
+        }
+        console.log(showPhotoIndex);       
+        
+    })
+}
+//end slider for rooms photo
+</script>
+
+
 </body>
 
 </html>

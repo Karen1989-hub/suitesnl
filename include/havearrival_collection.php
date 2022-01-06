@@ -1,79 +1,118 @@
-
-<br>
-$arrival = <?= $arrival;?>  
-<br>
-$departure =  <?= $departure;?>  
-<br>
-$collection = <?= $collection;?> 
-
 <?php
-	function getSuitesroomsByPropertyId($id){
-		global $db;
+$type = 'hotel';
+$start = microtime(true);
 
-		$sql = "SELECT * FROM `suitesrooms` where `propertyid`=:id ORDER BY `propertyid` DESC";
-		
-		$stmt = $db->prepare($sql);
-    	$stmt->execute([
-			"id" => $id
+function getPropertyById($id){
+    global $db;
+
+    $sql = "SELECT property.naam,property.url FROM `property` WHERE id=:id";
+
+    $smtp = $db->prepare($sql);
+    $smtp->execute([
+        "id"  => $id,
+    ]);
+    $result = $smtp->fetchAll(\PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
+
+
+function ollPhotosByRoomId($roomId){
+    global $db;
+
+    $sql = "SELECT `photo_id` from `room_photos` WHERE room_id=:roomId ORDER BY displayorder ASC";
+
+    $smtp = $db->prepare($sql);
+    $smtp->execute([
+        "roomId"  => $roomId,
+    ]);
+    $result = $smtp->fetchAll(\PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getSuitesroom($collection_id){
+    global $db;   
+     
+     $sql = "SELECT suitesrooms.*,property.* FROM suitesrooms INNER JOIN property ON suitesrooms.propertyid=property.id JOIN suitescollection ON suitescollection.propertyid=property.id   WHERE suitescollection.suitesid=:collection_id ";
+     
+     $stmt = $db->prepare($sql);
+     $stmt->execute([
+        'collection_id' => $collection_id
     	]);
     	$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);   
     	return $result;
-	}	
 
-	function ollPhotosByRoomId($roomId){
-		global $db;
+}
 
-		$sql = "SELECT `photo_id` from `room_photos` WHERE room_id=:roomId ORDER BY displayorder ASC";
+function getPropertyByApi($propertyid,$type,$arrival,$departure){
+    global $type;
 
-		$smtp = $db->prepare($sql);
-        $smtp->execute([
-            "roomId"  => $roomId,
-        ]);
-        $result = $smtp->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-	}
-
-	$type = 'hotel';
-
-	$ch = curl_init("https://search-av.hotels.nl/?id=".$hotel_id."&type=".$type."&arrival=".$arrival."&departure=".$departure);
+	$ch = curl_init("https://search-av.hotels.nl/?id=".$propertyid."&type=".$type."&arrival=".$arrival."&departure=".$departure);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 
 	$json = curl_exec($ch);
 	curl_close($ch);	
 
 	$json = json_decode($json);
+    return $json;
+}    
 
-	//our DB
-	$sutesrooms = getSuitesroomsByPropertyId($hotel_id);
-	
-	//API DB
-	$room_ratetype = $json->hotels[0]->room_ratetype;	
 
-	$rooms = [];
-	if($room_ratetype != null && $sutesrooms != null){
-		foreach($sutesrooms as $sute){
-			foreach($room_ratetype as $room){
-				if($room->room_id == $sute['roomid']){			
-					array_push($rooms,$room);
-					break;
-				}	
-			}
-		}
-	}	
-?>	
-<?php
-echo "<pre>";
-print_r($rooms);
+//our DB
+$sutesrooms = getSuitesroom($collection_id);
 
+
+//API DB
+$property_data = [];
+foreach($sutesrooms as $room){      
+    array_push($property_data,$room['propertyid']);   
+}
+
+$property_data = array_unique($property_data);
+$property_data = implode(',',$property_data);
+$api_respons = getPropertyByApi($property_data,$type,$arrival,$departure);
+
+$room_ratetype = [];
+foreach($api_respons->hotels as $hotel){
+    array_push($room_ratetype,$hotel->room_ratetype);     
+}
+
+ //echo "<pre>";
+ //print_r($room_ratetype);
+
+ 
+ $room_ratetype_all = []; // API-ic stacvac tvyal suit-i hamar bolor senyakner@
+ foreach($room_ratetype as $arr){
+     foreach($arr as $val){
+         array_push($room_ratetype_all,$val);        
+     }     
+ }
+
+ $rooms = [];
+ if($room_ratetype_all != null && $sutesrooms != null){
+    foreach($sutesrooms as $sute){
+        foreach($room_ratetype_all as $room){
+            if($room->room_id == $sute['roomid']){			
+                array_push($rooms,$room);
+                break;
+            }	
+        }
+    }
+}	
+
+// echo "<pre>";
+// print_r($rooms);
+// die;
 ?>
 
-	<?php if(!empty($rooms)): ?>
+<?php if(!empty($rooms)): ?>
 	<div style="width:100%; overflow: scroll;">
 		<table cellspacing=10 >
             <tr>
                 <th>Image</th>
                 <th>Room_id</th>
-                <th>Hotel_id</th>
+                <th>Hotel name</th>
 				<th>Room_name</th>
 				<th>Description</th>
 				<th>min_price</th>
@@ -144,7 +183,14 @@ print_r($rooms);
 					</div>					
 				</td>
                 <td> <?php echo isset($room->room_id)   ? $room->room_id : ''; ?></td>
-                <td> <?php echo isset($room->hotelid)   ? $room->hotelid : ''; ?></td>
+                <td>                        
+                    <?php                    
+                    if(isset($room->hotelid)){
+                        $property = getPropertyById($room->hotelid);                        
+                    }
+                    ?>
+                    <a href="https://suites.nl/<?php echo $property[0]['url']; ?>/"><?php echo $property[0]['naam']; ?></a>
+                </td>
 				<td> <?php echo isset($room->room_name)   ? $room->room_name : ''; ?></td>
 				<td> <?php echo isset($room->typeDescription)   ? $room->typeDescription : ''; ?></td>
 				<td> <?php echo isset($room->min_price)   ? $room->min_price : ''; ?></td>
@@ -249,3 +295,16 @@ print_r($rooms);
 	<?php else: ?>
 		<p><strong>NO ROOM</strong></p>		
 	<?php endif ?>	
+
+
+
+<?php
+$finish = microtime(true) - $start;
+echo "<h3>".$finish."sec.</h3>";
+?>
+
+
+ 
+
+
+
