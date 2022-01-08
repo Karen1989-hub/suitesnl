@@ -62,8 +62,7 @@ function getBigestUSPforRoomByRoom_id($room_id){
     
     
     
-    
-    // tvyal room-i hamar bolor hasaneli facilities-ner@
+    //// tvyal room-i hamar bolor hasaneli facilities-ner@
     $room_facilities_data = [];
     foreach($room_facilities as $facility){  
         $room_facility_type = getRoom_facility_typeByFacility_id($facility['facility_id']);    
@@ -78,18 +77,28 @@ function getBigestUSPforRoomByRoom_id($room_id){
     usort($room_facilities_data,function($a,$b){
         return $b['usp_order'] <=> $a['usp_order'];
     });
+
+    $room_facilities_data = array_reverse($room_facilities_data);
+
+    //return $room_facilities_data;
     
-    //tvyal room-i hamar 3 amenamec ['usp_order'] unecox facilities-neri ['usp']-ner@
+    ////tvyal room-i hamar 3 amenamec ['usp_order'] unecox facilities-neri ['usp']-ner@
     $room_facilities_data_filtr = [];
     for($i=0;$i<3;$i++){
         if(isset($room_facilities_data[$i])){
             array_push($room_facilities_data_filtr,$room_facilities_data[$i]['usp']);
         }
     }
-    return $room_facilities_data_filtr;
+
+      return $room_facilities_data_filtr;
+    
 }
+//871
+// $testArr = getBigestUSPforRoomByRoom_id(871);
 
-
+// echo "<pre>";
+// print_r($testArr);
+// die;
 
 
 

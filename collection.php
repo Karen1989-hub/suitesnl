@@ -236,15 +236,15 @@ img {vertical-align: middle;}
 Cut here Vitaly
 
 <?php 
-//if($arrival !== "" && $departure !== "") {
+if($arrival !== "" && $departure !== "") {+
 
-   // $collection_id = isset($get[0]["id"]) ? $get[0]["id"] : 0;
-   // include "include/havearrival_collection.php";
+    $collection_id = isset($get[0]["id"]) ? $get[0]["id"] : 0;
+    include "include/havearrival_collection.php";
 
-//}else{
+}else{
     $collection_id = isset($get[0]["id"]) ? $get[0]["id"] : 0;            
      include "include/noarrival_collection.php";
-//}
+}
 
 ?>
 

@@ -25,14 +25,10 @@ function GetCookie(){
     $cookie2 = [];  
     $cookie  = isset($_COOKIE["arrival"]) ? $_COOKIE["arrival"] : [];
  
-    if(!empty($cookie)){
- 
-     $cookie2 = unserialize($cookie);
- 
-    }
-   
-    return $cookie2;
- 
+    if(!empty($cookie)){ 
+     $cookie2 = unserialize($cookie); 
+    }   
+    return $cookie2; 
  }
 
     $cookie = GetCookie();
@@ -273,9 +269,10 @@ img {vertical-align: middle;}
             include __DIR__ . '/include/havearrival.php';
 
         }else{
-          
+
              $propertyid = isset($get[0]["id"]) ? $get[0]["id"] : 0;            
              include __DIR__ . '/include/noarrival.php';
+
         }   
 
 

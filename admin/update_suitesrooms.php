@@ -69,11 +69,9 @@ function updateSuitesrooms($id){
         input{
             margin: 0 10px 10px 10px;
         }
-        h2{
-            text-align:center;
-        }
+       
     </style>
-    <h2>Update suitesrooms</h2>
+    <h2 style="text-align:center">Update suitesrooms</h2>
     <form action="" class="suitesroomsUpdateForm" method="post">
         <input type="hidden" name="method" value="updateSuitesrooms" >
         <label for="">usp1</label><br>
@@ -87,6 +85,10 @@ function updateSuitesrooms($id){
         <input type="submit" value="update"><br>
         <a href=""></a>
     </form>
+
+    <?php
+    include "../roomfacilities.php";
+    ?>
     
 </body>
 </html>

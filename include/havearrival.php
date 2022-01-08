@@ -7,6 +7,7 @@ $departure =  <?= $departure;?>
 $collection = <?= $collection;?> 
 
 <?php
+
 	function getSuitesroomsByPropertyId($id){
 		global $db;
 
@@ -34,7 +35,8 @@ $collection = <?= $collection;?>
 	}
 
 	$type = 'hotel';
-
+	//echo $hotel_id;die;
+	//$hotel_id = 1242;
 	$ch = curl_init("https://search-av.hotels.nl/?id=".$hotel_id."&type=".$type."&arrival=".$arrival."&departure=".$departure);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 
@@ -42,6 +44,9 @@ $collection = <?= $collection;?>
 	curl_close($ch);	
 
 	$json = json_decode($json);
+	// echo "<pre>";
+	// var_dump($json);
+	// die;
 
 	//our DB
 	$sutesrooms = getSuitesroomsByPropertyId($hotel_id);
@@ -62,8 +67,8 @@ $collection = <?= $collection;?>
 	}	
 ?>	
 <?php
-echo "<pre>";
-print_r($rooms);
+// echo "<pre>";
+// print_r($rooms);
 
 ?>
 
