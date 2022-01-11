@@ -71,11 +71,14 @@ foreach($sutesrooms as $room){
 
 $property_data = array_unique($property_data);
 $property_data = implode(',',$property_data);
+
 $api_respons = getPropertyByApi($property_data,$type,$arrival,$departure);
 
 $room_ratetype = [];
+if(!empty($api_respons)){
 foreach($api_respons->hotels as $hotel){
     array_push($room_ratetype,$hotel->room_ratetype);     
+}
 }
 
  //echo "<pre>";
@@ -107,6 +110,7 @@ foreach($api_respons->hotels as $hotel){
 ?>
 
 <?php if(!empty($rooms)): ?>
+	<?php// var_dump($rooms);die; ?>
 	<div style="width:100%; overflow: scroll;">
 		<table cellspacing=10 >
             <tr>

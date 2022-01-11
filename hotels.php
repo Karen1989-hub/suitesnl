@@ -1,4 +1,6 @@
 <?php
+//tvyal ejin dimelu orinak jamketneri poxancmamb//https://suites.nl/hotel-de-vischpoorte-deventer/?arrival=2022-01-10&departure=2022-04-17
+
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
@@ -19,6 +21,25 @@ $fbtype = 'PageView';
 
 
 #    include __DIR__ . '/include/header.php';
+function getMonthName($data){
+  $filtr1 = explode('-',$data);
+  $num = $filtr1[1];
+   
+switch($num){
+  case "01": return $filtr1[2]." Januari";break;
+  case "02": return $filtr1[2]." Februari";break;
+  case "03": return $filtr1[2]." Maart ";break;
+  case "04": return $filtr1[2]." April ";break;
+  case "05": return $filtr1[2]." Mei ";break;
+  case "06": return $filtr1[2]." Juni ";break;
+  case "07": return $filtr1[2]." Juli ";break;
+  case "08": return $filtr1[2]." Augustus ";break;
+  case "09": return $filtr1[2]." September ";break;
+  case "10": return $filtr1[2]." Oktobe ";break;
+  case "11": return $filtr1[2]." November ";break;
+  case "12": return $filtr1[2]." December ";
+  }
+}
 
 function GetCookie(){
     
@@ -194,8 +215,8 @@ img {vertical-align: middle;}
 
                 <td><?php echo isset($result_cookie['name']) ? $result_cookie['name'] : '';  ?></td>
                 <td><?php echo isset($result_cookie['url']) ? $result_cookie['url'] : ''; ?></td>
-                <td><?php echo isset($result_cookie['arrival']) ? $result_cookie['arrival'] : ''; ?></td>
-                <td><?php echo isset($result_cookie['departure']) ? $result_cookie['departure'] : ''; ?></td>
+                <td><?php echo isset($result_cookie['arrival']) ? getMonthName($result_cookie['arrival']) : ''; ?></td>
+            <td><?php echo isset($result_cookie['departure']) ? getMonthName($result_cookie['departure']) : ''; ?></td> 
 
             </tr>
 

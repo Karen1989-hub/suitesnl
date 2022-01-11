@@ -72,7 +72,7 @@ $collection = <?= $collection;?>
 
 ?>
 
-	<?php if(!empty($rooms)): ?>
+	<?php if(!empty($rooms)): ?>		
 	<div style="width:100%; overflow: scroll;">
 		<table cellspacing=10 >
             <tr>

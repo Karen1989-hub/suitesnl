@@ -1,4 +1,6 @@
 <?php
+//tvyal ejin dimelu orinak jamketnerov//https://suites.nl/haarlem/?arrival=2022-01-12&departure=2022-04-17
+// naxatesvac chi vor 
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -10,6 +12,27 @@ $db = getdb();
 include __DIR__ . '/include/arrivalcookie.php';
 include __DIR__ . '/include/collection-include.php';
 
+function getMonthName($data){
+    $filtr1 = explode('-',$data);
+    $num = $filtr1[1];
+     
+    switch($num){
+        case "01": return $filtr1[2]." Januari";break;
+        case "02": return $filtr1[2]." Februari";break;
+        case "03": return $filtr1[2]." Maart ";break;
+        case "04": return $filtr1[2]." April ";break;
+        case "05": return $filtr1[2]." Mei ";break;
+        case "06": return $filtr1[2]." Juni ";break;
+        case "07": return $filtr1[2]." Juli ";break;
+        case "08": return $filtr1[2]." Augustus ";break;
+        case "09": return $filtr1[2]." September ";break;
+        case "10": return $filtr1[2]." Oktobe ";break;
+        case "11": return $filtr1[2]." November ";break;
+        case "12": return $filtr1[2]." December ";
+        }
+}
+//echo getMonthName("11");die;
+
 
 function GetCookie(){
     
@@ -17,9 +40,7 @@ function GetCookie(){
    $cookie  = isset($_COOKIE["arrival"]) ? $_COOKIE["arrival"] : [];
 
    if(!empty($cookie)){
-
     $cookie2 = unserialize($cookie);
-
    }
   
    return $cookie2;
@@ -33,8 +54,19 @@ $arrival    =  isset($cookie['arrival']) ? $cookie['arrival'] : "";
 $departure  =  isset($cookie['departure']) ? $cookie['departure'] : "";
 $collection =  isset($_GET['name']) ? $_GET['name'] : "";
 
-$collection_id = $get[0]['id'];
+function getNightsCount($arrival,$departure){
+    if($arrival != "" && $departure != ""){
+        $d1 = strtotime($arrival);
+        $d2 = strtotime($departure);
+    
+        $days = floor(($d2-$d1) / 86400);
+        return $days; 
+    }
+    return "";   
+}
+$days_count = getNightsCount($arrival,$departure);
 
+$collection_id = $get[0]['id'];
 
 ?>
 
@@ -178,27 +210,39 @@ img {vertical-align: middle;}
 }
 </style>
 
-
 <div id="wrapper">
 <?php if(isset($result_cookie) && !empty($result_cookie)): ?>
+    <?php
+    
+    //echo getMonthName($result_cookie['arrival']);die;
+    ?>
     <h1 style="text-align:center;">result of cookie</h1>
+    <!-- $days_count -->
     <table>
         <tr>
             <th>naam</th>
             <th>url</th>
             <th>arrival</th>
-            <th>departure</th>
+            <th>departure</th>            
         </tr>
         <tr>
-
             <td><?php echo isset($result_cookie['name']) ? $result_cookie['name'] : '';  ?></td>
             <td><?php echo isset($result_cookie['url']) ? $result_cookie['url'] : ''; ?></td>
-            <td><?php echo isset($result_cookie['arrival']) ? $result_cookie['arrival'] : ''; ?></td>
-            <td><?php echo isset($result_cookie['departure']) ? $result_cookie['departure'] : ''; ?></td>
-    
+            <td><?php echo isset($result_cookie['arrival']) ? getMonthName($result_cookie['arrival']) : ''; ?></td>
+            <td><?php echo isset($result_cookie['departure']) ? getMonthName($result_cookie['departure']) : ''; ?></td>          
         </tr>
-
     </table>
+    <?php if(!empty($days_count)):?>
+    
+    <h3><?php 
+    if($days_count>1){
+        echo $days_count." nachten";
+    } else {
+        echo $days_count." nacht";
+    }
+    ?></h3>
+   
+    <?php endif ?>
     <?php else: echo "<p style='text-align:center;'>NO DATA</>" ?>
 <?php endif;?>
 
