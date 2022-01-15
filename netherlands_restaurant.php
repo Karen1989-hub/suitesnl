@@ -1,4 +1,4 @@
-<h2>ALL restaurants </h2>
+<h2>ALL5 restaurants </h2>
 <?php
 
 if (!isset($db)) {
@@ -16,10 +16,7 @@ $json = json_decode($json);
 
 $restaurants = $json->elements;
 
-echo count($restaurants);
-//print_r($restaurants[0]);
-  //die;
-
+ $allVals = "";
  $vals = "";  
  $id = "null";
  $lat = "null";
@@ -35,38 +32,50 @@ echo count($restaurants);
  $cuisine = "null";
  $delivery = "null";
  $takeaway = "null";
-foreach($restaurants as $key => $restaurant){    
-            
-    if($restaurant->tags->name){      
+
+ //echo "<pre>";
+ //print_r($restaurants);
+//die;
+$insertStartNum = 0;
+if(isset($_COOKIE['insertStartNum'])){
+   $insertStartNum = $_COOKIE['insertStartNum'];
+}
+setcookie("insertStartNum",$insertStartNum+1,time()+86400,"/");
+//$restaurants
+//die;
+for($i=$insertStartNum;$i<$insertStartNum+10;$i++){    
+   //$vals = "";  
+   $vals2 = "";     
+    if($restaurants[$i]->tags->name){      
           
-    $restauran_tags = $restaurant->tags;
-    $id = isset($restaurant->id) ? $restaurant->id : null;
+    $restauran_tags = $restaurants[$i]->tags;
+    $id = isset($restaurants[$i]->id) ? $restaurants[$i]->id : null;
 
     $lat = "";    
-    if(isset($restaurant->lat) && !empty($restaurant->lat)){
-        $lat = "".$restaurant->lat."";
+    if(isset($restaurants[$i]->lat) && !empty($restaurants[$i]->lat)){
+        $lat = "".$restaurants[$i]->lat."";
      } else {
-        $lon = 'null';
+        $lat = 'null';
      }; 
 
     $lon = "";
-    if(isset($restaurant->lon) && !empty($restaurant->lon)){
-        $lon = "".$restaurant->lon."";
+    if(isset($restaurants[$i]->lon) && !empty($restaurants[$i]->lon)){
+        $lon = "".$restaurants[$i]->lon."";
      } else {
         $lon = 'null';
      }; 
 
     $type = "";
-    if(isset($restaurant->tags->amenity) && !empty($restaurant->tags->amenity)){
-        $type = "'".$restaurant->tags->amenity."'";
+    if(isset($restaurants[$i]->tags->amenity) && !empty($restaurants[$i]->tags->amenity)){
+        $type = "'".$restaurants[$i]->tags->amenity."'";
      } else {
         $type = 'null';
      }; 
 
     $name = "";
     
-    if(isset($restaurant->tags->name) && !empty($restaurant->tags->name)){
-        $name = "'".$restaurant->tags->name."'";
+    if(isset($restaurants[$i]->tags->name) && !empty($restaurants[$i]->tags->name)){
+        $name = "'".$restaurants[$i]->tags->name."'";
      } else {
         $name = 'null';
      }; 
@@ -105,112 +114,91 @@ foreach($restaurants as $key => $restaurant){
 
     
     $email = "";
-    if(isset($restaurant->tags->email) && !empty($restaurant->tags->email) ){
-        $email = "'".$restaurant->tags->email."'";
-        
+    if(isset($restaurants[$i]->tags->email) && !empty($restaurants[$i]->tags->email) ){
+        $email = "'".$restaurants[$i]->tags->email."'";        
      } else {
         $email = 'null';
      }; 
 
     $website = "";
-    if(isset($restaurant->tags->website) && !empty($restaurant->tags->website)){
-        $website = "'".$restaurant->tags->website."'";
+    if(isset($restaurants[$i]->tags->website) && !empty($restaurants[$i]->tags->website)){
+        $website = "'".$restaurants[$i]->tags->website."'";
      } else {
         $website = 'null';
      };  
 
     $phone = "";
-     if(isset($restaurant->tags->phone) && !empty($restaurant->tags->phone)){
-        $phone = "'".$restaurant->tags->phone."'";
+     if(isset($restaurants[$i]->tags->phone) && !empty($restaurants[$i]->tags->phone)){
+        $phone = "'".$restaurants[$i]->tags->phone."'";
      } else {
         $phone = 'null';
      };  
 
     $cuisine = "";
-     if(isset($restaurant->tags->cuisine) && !empty($restaurant->tags->cuisine)){
-        $cuisine = "'".$restaurant->tags->cuisine."'";
+     if(isset($restaurants[$i]->tags->cuisine) && !empty($restaurants[$i]->tags->cuisine)){
+        $cuisine = "'".$restaurants[$i]->tags->cuisine."'";
      } else {
         $cuisine = 'null';
      };  
      
     $delivery = "";
-     if(isset($restaurant->tags->delivery) && !empty($restaurant->tags->delivery)){
-        $delivery = "'".$restaurant->tags->delivery."'";
+     if(isset($restaurants[$i]->tags->delivery) && !empty($restaurants[$i]->tags->delivery)){
+        $delivery = "'".$restaurants[$i]->tags->delivery."'";
      } else {
         $delivery = 'null';
      };   
 
     $takeaway = "";
-      if(isset($restaurant->tags->takeaway) && !empty($restaurant->tags->takeaway)){
-        $takeaway = "'".$restaurant->tags->takeaway."'";
+      if(isset($restaurants[$i]->tags->takeaway) && !empty($restaurants[$i]->tags->takeaway)){
+        $takeaway = "'".$restaurants[$i]->tags->takeaway."'";
      } else {
         $takeaway = 'null';
      };      
        
-     $vals .= "(".$id.",".$lat.",".$lon.",".$type.",".$name.",".$street.",".$housenumber.",".$postcode.",".$email.",".$website.",".$phone.",".$cuisine.",".$delivery.",".$takeaway.")";
-     //echo $vals;
-    
-    
+     $vals = "(".$id.",".$lat.",".$lon.",".$type.",".$name.",".$street.",".$housenumber.",".$postcode.",".$email.",".$website.",".$phone.",".$cuisine.",".$delivery.",".$takeaway.")";
+     //echo $vals;    
         
-           
+         // if($i==$insertStartNum){
+         //    break;
+         // } else {
+         //    $vals .= ",";
+         // }
+         
     }  
-    if($key>50){
-        break;
-    } else {
-        $vals .= ",";
+   //  if($vals != "" ){
+   //    $allVals .= $vals.",";
+   //  }       
+    if($id == 15223){
+       echo "FINISH";
+       die;
     }
-    
    }
- //echo $vals;
-//die;
+  //$allVals = substr($allVals,0,-1);
+  
+  //echo $vals;
+ 
+   echo "<br>";
+   echo "<br>";
+   
 
-function insertIntoPoi(){
-   global $db;      
-   global $vals;
-    
-    $sql = "INSERT INTO `poi`(id,lat,lon,type,name,street,housenumber,postcode,email,website,phone,cuisine,delivery,takeaway) VALUES $vals";
-       echo $vals;
-     $stmt = $db->prepare($sql);
-     $stmt->execute([
-        
-     ]);
-    
-}	
-insertIntoPoi();
+if($vals != ""){
+   function insertIntoPoi(){
+      global $db;  
+      global $vals;    
+      global $allVals;
+       
+       $sql = "INSERT INTO `poi`(id,lat,lon,type,name,street,housenumber,postcode,email,website,phone,cuisine,delivery,takeaway) VALUES $vals";
+          //echo $sql;
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+           
+        ]);    
+   }	
+   insertIntoPoi();
+}
+//echo "Karen";
+//header("Refresh:0.01");
+
 // die;
 
 
-// //$insObjNum+1
-// // $insObjNum = 0;
-// // if(isset($_COOKIE['insObjNum'])){
-// //     $insObjNum = $_COOKIE['insObjNum'];
-// // }
-// // setcookie('insObjNum',$insObjNum+10,time()+86400,"/");
-
-// ?>
-
-
-        <!-- <tr>
-//             <th>index</th>
-//             <th>id</th>
-//             <th>lat</th>
-//             <th>lon</th>
-//             <th>type(restaurant)</th>
-//             <th>name</th>
-//             <th>street</th>
-//             <th>housenumber</th>
-//             <th>postcode</th>
-//             <th>email</th>
-//             <th>website</th>            
-//             <th>phone</th>
-//             <th>cuisine</th>
-//             <th>delivery</th>   
-//             <th>takeaway</th>      
-//         </tr> -->
-        <?php
-        
-//           ?> 
-   
-    
- </body>
- </html> 
