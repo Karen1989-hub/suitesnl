@@ -24,7 +24,7 @@ $data = [];
 function getRoomNameByRoom_id($id){
     global $db;
 
-    $sql = "SELECT `naam` FROM `suitesrooms` WHERE roomid=:id";
+    $sql = "SELECT `naam`,`roomsize`, `bedtype` FROM `suitesrooms` WHERE roomid=:id";
 
     $smtp = $db->prepare($sql);
     $smtp->execute([
@@ -236,6 +236,8 @@ img {vertical-align: middle;}
     <?php endif ?>  
 
     <?php
+	echo 'roomsize ' . getRoomNameByRoom_id($room_id)[0]['roomsize'] . '<br>';
+	echo 'bedtype ' . getRoomNameByRoom_id($room_id)[0]['bedtype'];
     include "../roomfacilities.php";
     ?>
     <script>

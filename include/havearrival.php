@@ -8,6 +8,7 @@ $collection = <?= $collection;?>
 
 <?php
 
+
 	function getSuitesroomsByPropertyId($id){
 		global $db;
 

@@ -23,6 +23,41 @@ function getPropertyByUPId(){
     return $dataDable;
 }
 
+function getRoomsByPropertyId(){
+    global $db;
+
+    $id = $_GET['id'];
+    $sql = "SELECT roomid, naam, roomsize, bedtype FROM `suitesrooms` WHERE `propertyid` = :id " ;
+
+    $stmt = $db->prepare($sql); 
+    $stmt->execute([
+        "id"  => $id,
+    ]);  
+        
+    $roomsforlist = $stmt->fetchAll(\PDO::FETCH_ASSOC);  
+
+    return $roomsforlist;	
+}
+
+function getHotelBaseInfoById(){
+    global $db;
+
+    $id = $_GET['id'];
+    $sql = "SELECT city, province, stars, number_of_rooms, checkinfrom, checkintill, checkoutfrom, checkouttill FROM `property` where `id` = :id " ;
+
+    $stmt = $db->prepare($sql); 
+    $stmt->execute([
+        "id"  => $id,
+    ]);  
+        
+    $hoteldata = $stmt->fetchAll(\PDO::FETCH_ASSOC);  
+
+    return $hoteldata[0];
+}
+
+$roomids_forlist = getRoomsByPropertyId();
+$firstHotelData = getHotelBaseInfoById();
+
 
 $data =  getPropertyByUPId();
 
@@ -218,8 +253,41 @@ img {vertical-align: middle;}
      $propertyid = $id ;            
     include '../include/noarrival.php';
     }   
-
+	
+	//
+	echo '<br>';
+	echo 'city: ' . $firstHotelData['city'] . '<br>';
+	echo 'province: ' . $firstHotelData['province'] . '<br>';
+	echo 'stars: ' . $firstHotelData['stars'] . '<br>';
+	echo 'number of rooms: ' . $firstHotelData['number_of_rooms'] . '<br>';
+	echo 'check in from: ' . $firstHotelData['checkinfrom'] . '<br>';
+	echo 'check in till: ' . $firstHotelData['checkintill'] . '<br>';
+	echo 'check out from: ' . $firstHotelData['checkoutfrom'] . '<br>';
+	echo 'check out till: ' . $firstHotelData['checkouttill'] . '<br><br>';
+	
+	//Inclusion made by Koen 19-1 to write hoteldescriptions
+	include "../get_relevant_pois.php";
+	//End of Inclusion by Koen 19-1
+	
     include "../facilities.php";
+	
+	//Inclusion made by Koen 19-1 to write hoteldescriptions
+	if (isset($roomids_forlist)) {
+		include "../roomfacilities.php";
+		foreach($roomids_forlist as $room) {
+			$room_facilities = getRoom_FacilityByRoom_Id($room['roomid']);
+			?> <b><u> <?php echo $room['naam'] . '<br><br>'; ?> </u></b> <?php
+			echo '--roomsize ' . $room['roomsize'] . '<br><br>' . '--bedtype ' . $room['bedtype'] . '<br>';
+			foreach($room_facilities as $facility) {
+					$room_facility_type = getRoom_facility_typeByFacility_id($facility['facility_id']);
+					foreach($room_facility_type as $facility_name) { ?>
+						<p><?php print_r("-- " . $facility_name['facility_name']); ?></p>
+					<?php }
+			}
+			
+		}	
+	}
+	// End of inclusion by Koen 19-1
    ?>
     <script src="../assets/scripts/main.js"></script>
 </body>

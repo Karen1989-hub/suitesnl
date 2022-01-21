@@ -1,20 +1,23 @@
-<h2>ALL5 restaurants </h2>
+<h2>Insert parking 4</h2>
 <?php
-
+die;
 if (!isset($db)) {
     include './include/db.php';
     $db = getdb();
 }
 
-$ch = curl_init("https://suites.nl/include/restaurants.json");
+$ch = curl_init("https://suites.nl/include/parking4.json");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 
-$json = curl_exec($ch);
+
+
+$json2 = curl_exec($ch);
 curl_close($ch);	
 
-$json = json_decode($json);
+$json = json_decode($json2);
 
 $restaurants = $json->elements;
+////////////////////
 
  $allVals = "";
  $vals = "";  
@@ -32,18 +35,23 @@ $restaurants = $json->elements;
  $cuisine = "null";
  $delivery = "null";
  $takeaway = "null";
-
- //echo "<pre>";
- //print_r($restaurants);
 //die;
+   //    echo count($restaurants);
+      // echo "<pre>";
+   
+      // print_r($restaurants);
+      
+      //   die;
 $insertStartNum = 0;
-if(isset($_COOKIE['insertStartNum'])){
-   $insertStartNum = $_COOKIE['insertStartNum'];
-}
+ if(isset($_COOKIE['insertStartNum'])){
+    $insertStartNum = $_COOKIE['insertStartNum'];
+ }
 setcookie("insertStartNum",$insertStartNum+1,time()+86400,"/");
 //$restaurants
+echo "<h3>loading ".floor($insertStartNum/133)."%</h3>";
+
 //die;
-for($i=$insertStartNum;$i<$insertStartNum+10;$i++){    
+for($i=$insertStartNum;$i<$insertStartNum+1;$i++){    
    //$vals = "";  
    $vals2 = "";     
     if($restaurants[$i]->tags->name){      
@@ -168,10 +176,10 @@ for($i=$insertStartNum;$i<$insertStartNum+10;$i++){
    //  if($vals != "" ){
    //    $allVals .= $vals.",";
    //  }       
-    if($id == 15223){
-       echo "FINISH";
-       die;
-    }
+   //  if($id == 1257){
+   //     echo "FINISH";
+   //     die;
+   //  }
    }
   //$allVals = substr($allVals,0,-1);
   
@@ -197,7 +205,7 @@ if($vals != ""){
    insertIntoPoi();
 }
 //echo "Karen";
-//header("Refresh:0.01");
+header("Refresh:0");
 
 // die;
 
