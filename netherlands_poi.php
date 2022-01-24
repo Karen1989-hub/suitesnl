@@ -1,15 +1,13 @@
-<h2>Insert parking 4</h2>
+<h2>Insert station</h2>
 <?php
-die;
+//die;
 if (!isset($db)) {
     include './include/db.php';
     $db = getdb();
 }
 
-$ch = curl_init("https://suites.nl/include/parking4.json");
+$ch = curl_init("https://suites.nl/include/station.json");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-
-
 
 $json2 = curl_exec($ch);
 curl_close($ch);	
@@ -37,18 +35,18 @@ $restaurants = $json->elements;
  $takeaway = "null";
 //die;
    //    echo count($restaurants);
-      // echo "<pre>";
+     echo "<pre>";
    
-      // print_r($restaurants);
+     print_r($restaurants);
       
-      //   die;
-$insertStartNum = 0;
+      die;
+$insertStartNum = 1;
  if(isset($_COOKIE['insertStartNum'])){
     $insertStartNum = $_COOKIE['insertStartNum'];
  }
 setcookie("insertStartNum",$insertStartNum+1,time()+86400,"/");
 //$restaurants
-echo "<h3>loading ".floor($insertStartNum/133)."%</h3>";
+echo "<h3>loading ".floor($insertStartNum/12.6)."%</h3>";
 
 //die;
 for($i=$insertStartNum;$i<$insertStartNum+1;$i++){    
@@ -74,8 +72,8 @@ for($i=$insertStartNum;$i<$insertStartNum+1;$i++){
      }; 
 
     $type = "";
-    if(isset($restaurants[$i]->tags->amenity) && !empty($restaurants[$i]->tags->amenity)){
-        $type = "'".$restaurants[$i]->tags->amenity."'";
+    if(isset($restaurants[$i]->tags->railway) && !empty($restaurants[$i]->tags->railway)){
+        $type = '"'.$restaurants[$i]->tags->railway.'"';
      } else {
         $type = 'null';
      }; 
@@ -183,7 +181,7 @@ for($i=$insertStartNum;$i<$insertStartNum+1;$i++){
    }
   //$allVals = substr($allVals,0,-1);
   
-  //echo $vals;
+  echo $vals;
  
    echo "<br>";
    echo "<br>";
@@ -196,7 +194,7 @@ if($vals != ""){
       global $allVals;
        
        $sql = "INSERT INTO `poi`(id,lat,lon,type,name,street,housenumber,postcode,email,website,phone,cuisine,delivery,takeaway) VALUES $vals";
-          //echo $sql;
+          echo $sql;
         $stmt = $db->prepare($sql);
         $stmt->execute([
            
@@ -205,7 +203,7 @@ if($vals != ""){
    insertIntoPoi();
 }
 //echo "Karen";
-header("Refresh:0");
+//header("Refresh:0");
 
 // die;
 

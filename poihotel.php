@@ -1,41 +1,32 @@
-<!-- SELECT poi.id,
-        poi.name,
-        poi.lat, poi.lon,
-        p.distance_unit
-                 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(p.latpoint))
-                 * COS(RADIANS(poi.lat))
-                 * COS(RADIANS(p.longpoint) - RADIANS(poi.lon))
-                 + SIN(RADIANS(p.latpoint))
-                 * SIN(RADIANS(poi.lat))))) AS distance_in_km
-  FROM poi
-  JOIN (   /* these are the query parameters */
-        SELECT  property.lat  AS latpoint,  property.lon AS longpoint,
-                10.0 AS radius,      111.045 AS distance_unit
-      FROM property
-      WHERE property.id = 11
-    ) AS p ON 1=1
-  WHERE poi.lat
-     BETWEEN p.latpoint  - (p.radius / p.distance_unit)
-         AND p.latpoint  + (p.radius / p.distance_unit)
-    AND poi.lon
-     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
-         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
-    AND poi.type = 'restaurant'
-  ORDER BY distance_in_km
-  LIMIT 10 -->
-
 <h2>insert poihotel</h2>
 <?php
-die;
+
 if (!isset($db)) {
     include './include/db.php';
     $db = getdb();
 }
-//die;
-//111.045
-$types = ['restaurant','bar','cafe','fast_food','university','museum','arts_centre','atm','bicycle_rental','boat_rental','car_rental','casino',
-'charging_station','cinema','conference_centre','hospital','marketplace','parking_entrance','theatre','attraction','gallery',
-'theme_park','zoo','information','parking'];
+
+$types = [];
+
+function getTypes(){
+  global $db;
+
+  $sql = "SELECT DISTINCT `type` FROM `poi`";
+  $stmt = $db->prepare($sql);
+
+  $stmt->execute([
+    
+  ]);
+
+  $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  return $result;
+}
+$getTypes = getTypes();
+foreach($getTypes as $type){
+  if($type['type'] != ""){
+    array_push($types,$type['type']);
+  }  
+}
 
 function getPropertyEndPoiDistance($id,$type){
     global $db;
@@ -108,14 +99,15 @@ $insertStartNum = 0;
  }
  
 setcookie("insertStartNum",$insertStartNum+1,time()+86400,"/");
-//die;
+
+echo "<h3>loading ".floor($insertStartNum/4.7)."%</h3>";
+ die;
 $property_id = $allPropertes[$insertStartNum]['id'];
 
 
 function insertIntoPoiHotel($propertyid,$poiid,$distance,$poitype){
-    global $db;     
+    global $db;
     
-     
      $sql = "INSERT INTO `poihotel`(propertyid,poiid,distance,poitype) VALUES('$propertyid','$poiid','$distance','$poitype')";
         //echo $sql;
       $stmt = $db->prepare($sql);
@@ -139,20 +131,12 @@ function insertIntoPoiHotel($propertyid,$poiid,$distance,$poitype){
        insertIntoPoiHotel($property_id,$val['id'],$distance,$val['type']);
     }
  }
- 
 
 
-if($insertStartNum<471){
-     header("Refresh:0");
-}
-
-
-
-
-// foreach($allPropertes as $property){
-//     echo "<br>";
-//     //echo $property['id']."<br>";
-//     $poiesNear = getPropertyEndPoiDistance($property['id']);
-//     print_r($poiesNear);
-    
+// if($insertStartNum<471){
+//      header("Refresh:0");
 // }
+
+
+
+

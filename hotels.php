@@ -41,6 +41,28 @@ switch($num){
   }
 }
 
+$types = [];
+
+function getTypes(){
+  global $db;
+
+  $sql = "SELECT DISTINCT `type` FROM `poi`";
+  $stmt = $db->prepare($sql);
+
+  $stmt->execute([
+    
+  ]);
+
+  $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  return $result;
+}
+$getTypes = getTypes();
+foreach($getTypes as $type){
+  if($type['type'] != ""){
+    array_push($types,$type['type']);
+  }  
+}
+
 function GetCookie(){
     
     $cookie2 = [];  
@@ -58,8 +80,34 @@ function GetCookie(){
     $departure  =  isset($cookie['departure']) ? $cookie['departure'] : "";
     $collection =  isset($_GET['name']) ? $_GET['name'] : "";
 
-?>
 
+    function getPoiByPropertyIdAndType($id,$type){
+      global $db;
+      
+      $sql = "SELECT poihotel.*,poi.* FROM `poihotel` INNER JOIN `poi` ON poihotel.poiid=poi.id WHERE `propertyid`=:id ORDER BY `distance` ASC";
+
+      $stmt = $db->prepare($sql);
+
+      $stmt->execute([
+        "id"  => $id,
+        // "type" => $type
+      ]);
+
+      $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+   
+      return $result;
+    }
+    //echo $get[0]['id'];
+    //echo "<pre>";
+    $poies = getPoiByPropertyIdAndType($get[0]['id'],'station');
+    // print_r($poies);
+    // die;
+
+
+    
+
+
+?>
 <html lang="nl">
 <head>
 <meta charset="utf-8">
@@ -302,6 +350,33 @@ img {vertical-align: middle;}
         include __DIR__ . '/facilities.php';
 
     ?>  
+
+    
+
+    <h2>POI</h2>
+   <?php foreach($types as $type): ?>
+    <p><b><?= ucwords($type) ?> nearby:</b></p>
+    <?php foreach($poies as $poi):?>
+      <?php if($poi['type'] == $type):?>
+        <?php //print_r($poi);
+        echo "- ".$poi['distance'].'km  "'.$poi['name'].'"';
+        if($poi['type']=='restaurant' && isset($poi['cuisine']) && $poi['cuisine']!=""){
+          echo ", cuisine:".$poi['cuisine'];
+        };
+        if($poi['website'] != null){
+         ?>
+          <a href="<?= $poi['website'] ?>"><?= $poi['website'] ?></a>
+         <?php
+        }
+        echo "<br>";      
+        ?>
+      <?php endif ?>  
+    <?php endforeach ?>  
+   <?php endforeach ?> 
+    
+      
+    
+   
  
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>    

@@ -134,7 +134,7 @@ if (isset($property_id)){
 		echo '<br>';
 	}
 	
-	$theatres = getAllPoisByIdAndType($property_id, 'theatre', 3.0, 3);
+	$theatres = getAllPoisByIdAndType($property_id, 'theatre', 5.0, 3);
 	if (!empty($theatres)) {
 		echo '<b>Theatres nearby:<br></b>';
 		foreach ($theatres as $theatre) {
@@ -157,6 +157,123 @@ if (isset($property_id)){
 		echo '<b>ATMs nearby:<br></b>';
 		foreach ($atms as $atm) {
 			echo '- ' . $atm['distance_in_km'] . 'km' . ' ' . $atm['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$hospitals = getAllPoisByIdAndType($property_id, 'hospital', 10.0, 2);
+	if (!empty($hospitals)) {
+		echo '<b>Hospitals nearby:<br></b>';
+		foreach ($hospitals as $hospital) {
+			echo '- ' . $hospital['distance_in_km'] . 'km' . ' ' . $hospital['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$universities = getAllPoisByIdAndType($property_id, 'university', 10.0, 2);
+	if (!empty($universities)) {
+		echo '<b>Universities nearby:<br></b>';
+		foreach ($universities as $university) {
+			echo '- ' . $university['distance_in_km'] . 'km' . ' ' . $university['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$conf_centres = getAllPoisByIdAndType($property_id, 'conference_centre', 1.0, 2);
+	if (!empty($conf_centres)) {
+		echo '<b>Conference Centres nearby:<br></b>';
+		foreach ($conf_centres as $conf_centre) {
+			echo '- ' . $conf_centre['distance_in_km'] . 'km' . ' ' . $conf_centre['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$car_rentals = getAllPoisByIdAndType($property_id, 'car_rental', 5.0, 5);
+	if (!empty($car_rentals)) {
+		echo '<b>Car Rentals nearby:<br></b>';
+		foreach ($car_rentals as $car) {
+			echo '- ' . $car['distance_in_km'] . 'km' . ' ' . $car['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$charging_stations = getAllPoisByIdAndType($property_id, 'charging_station', 3.0, 5);
+	if (!empty($charging_stations)) {
+		echo '<b>Charging stations nearby:<br></b>';
+		foreach ($charging_stations as $charging) {
+			echo '- ' . $charging['distance_in_km'] . 'km' . ' ' . $charging['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$bicycles = getAllPoisByIdAndType($property_id, 'bicycle_rental', 3.0, 3);
+	if (!empty($bicycles)) {
+		echo '<b>Bicycle Rentals nearby:<br></b>';
+		foreach ($bicycles as $bicycle) {
+			echo '- ' . $bicycle['distance_in_km'] . 'km' . ' ' . $bicycle['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$fasts = getAllPoisByIdAndType($property_id, 'fast_food', 3.0, 10);
+	if (!empty($fasts)) {
+		echo '<b>Fast Food nearby:<br></b>';
+		foreach ($fasts as $fast) {
+			echo '- ' . $fast['distance_in_km'] . 'km' . ' ' . $fast['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$informations = getAllPoisByIdAndType($property_id, 'information', 5.0, 2);
+	if (!empty($informations)) {
+		echo '<b>Info points nearby:<br></b>';
+		foreach ($informations as $info) {
+			echo '- ' . $info['distance_in_km'] . 'km' . ' ' . $info['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$boats = getAllPoisByIdAndType($property_id, 'boat_rental', 10.0, 3);
+	if (!empty($boats)) {
+		echo '<b>Boat rentals nearby:<br></b>';
+		foreach ($boats as $boat) {
+			echo '- ' . $boat['distance_in_km'] . 'km' . ' ' . $boat['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$arts = getAllPoisByIdAndType($property_id, 'arts_centre', 10.0, 5);
+	if (!empty($arts)) {
+		echo '<b>Art Centres nearby:<br></b>';
+		foreach ($arts as $art) {
+			echo '- ' . $art['distance_in_km'] . 'km' . ' ' . $art['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$markts = getAllPoisByIdAndType($property_id, 'marketplace', 5.0, 2);
+	if (!empty($markts)) {
+		echo '<b>Marketplaces nearby:<br></b>';
+		foreach ($markts as $markt) {
+			echo '- ' . $markt['distance_in_km'] . 'km' . ' ' . $markt['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$attractions = getAllPoisByIdAndType($property_id, 'attraction', 10.0, 10);
+	if (!empty($attractions)) {
+		echo '<b>Attractions nearby:<br></b>';
+		foreach ($attractions as $attraction) {
+			echo '- ' . $attraction['distance_in_km'] . 'km' . ' ' . $attraction['name'] . '<br>';
+		}
+		echo '<br>';
+	}
+	
+	$stations = getAllPoisByIdAndType($property_id, 'station', 5.0, 10);
+	if (!empty($stations)) {
+		echo '<b>Stations nearby:<br></b>';
+		foreach ($stations as $station) {
+			echo '- ' . $station['distance_in_km'] . 'km' . ' ' . $station['name'] . '<br>';
 		}
 		echo '<br>';
 	}
